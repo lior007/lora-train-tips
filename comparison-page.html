@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .comparison {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .tool {
+            flex: 1;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 0;
+            text-align: center;
+        }
+        .pros, .cons {
+            margin-top: 20px;
+        }
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .pros h3::before {
+            content: "✅ ";
+        }
+        .cons h3::before {
+            content: "❌ ";
+        }
+        ul {
+            margin: 0;
+            padding-right: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .pros li::marker {
+            color: #27ae60;
+        }
+        .cons li::marker {
+            color: #e74c3c;
+        }
+        .summary {
+            background-color: #edf2f7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .summary h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>השוואה בין Kohya ו-Flux Gym</h1>
+        
+        <div class="comparison">
+            <div class="tool">
+                <h2>Kohya</h2>
+                <div class="pros">
+                    <h3>יתרונות</h3>
+                    <ul>
+                        <li>
+                            <strong>פשטות שימוש:</strong>
+                            <ul>
+                                <li>ממשק גרפי ידידותי</li>
+                                <li>תהליך התקנה מובנה</li>
+                                <li>אין צורך בידע מעמיק בתכנות</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>מיקוד באימון LoRA:</strong>
+                            <ul>
+                                <li>אופטימיזציה למודלים של Stable Diffusion</li>
+                                <li>שליטה מדויקת בפרמטרים</li>
+                                <li>תמיכה במגוון ארכיטקטורות</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>יעילות משאבים:</strong>
+                            <ul>
+                                <li>צריכת זיכרון GPU מופחתת</li>
+                                <li>מתאים ל-GPU ביתי</li>
+                                <li>זמני אימון מהירים</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>חסרונות</h3>
+                    <ul>
+                        <li>
+                            <strong>מוגבלות:</strong>
+                            <ul>
+                                <li>מוגבל בעיקר לאימון LoRA</li>
+                                <li>גמישות מוגבלת</li>
+                                <li>אפשרויות התאמה מצומצמות</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>תלות במערכת:</strong>
+                            <ul>
+                                <li>דרישות מערכת הפעלה ספציפיות</li>
+                                <li>בעיות תאימות אפשריות</li>
+                                <li>קשה לאוטומציה</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tool">
+                <h2>Flux Gym</h2>
+                <div class="pros">
+                    <h3>יתרונות</h3>
+                    <ul>
+                        <li>
+                            <strong>גמישות מקסימלית:</strong>
+                            <ul>
+                                <li>תמיכה במגוון רחב של מודלים</li>
+                                <li>התאמה אישית מלאה</li>
+                                <li>אינטגרציה עם כלים אחרים</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>יכולות מתקדמות:</strong>
+                            <ul>
+                                <li>אופטימיזציה אוטומטית</li>
+                                <li>כלי ניטור מתקדמים</li>
+                                <li>תמיכה בתשתיות מודרניות</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>סקלביליות:</strong>
+                            <ul>
+                                <li>תמיכה באימון מבוזר</li>
+                                <li>אופטימיזציה לחומרה מתקדמת</li>
+                                <li>טיפול בדאטאסטים גדולים</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>חסרונות</h3>
+                    <ul>
+                        <li>
+                            <strong>עקומת למידה:</strong>
+                            <ul>
+                                <li>דורש ידע בפייתון</li>
+                                <li>מורכבות בהגדרה</li>
+                                <li>תיעוד טכני</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>דרישות משאבים:</strong>
+                            <ul>
+                                <li>צריכת משאבים גבוהה</li>
+                                <li>דורש חומרה חזקה</li>
+                                <li>זמני אימון ארוכים</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="summary">
+            <h3>סיכום</h3>
+            <p><strong>Kohya</strong> מתאים יותר למשתמשים שמחפשים פתרון פשוט וממוקד לאימון LoRA, עם דגש על קלות שימוש ויעילות במשאבים.</p>
+            <p><strong>Flux Gym</strong> מתאים יותר למפתחים מנוסים ופרויקטים מורכבים שדורשים גמישות מקסימלית ויכולות מתקדמות.</p>
+        </div>
+    </div>
+</body>
+</html>

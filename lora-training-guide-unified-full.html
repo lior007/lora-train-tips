@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            direction: rtl;
+        }
+        .section {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 20px;
+            padding-right: 10px;
+            border-right: 3px solid #3498db;
+        }
+        .important {
+            background-color: #e8f4f8;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #bde0ef;
+        }
+        .tip {
+            background-color: #e8f8e8;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #c3e6cb;
+        }
+        .warning {
+            background-color: #fff3cd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ffeeba;
+        }
+        .focus {
+            background-color: #e8e8f8;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #d4d4f7;
+        }
+        .parameter {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-right: 4px solid #6c757d;
+        }
+        .highlight {
+            background-color: #fdf2e9;
+            padding: 3px 6px;
+            border-radius: 4px;
+            color: #c0392b;
+            font-weight: bold;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: right;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e83e8c;
+        }
+        .example {
+            background-color: #e9ecef;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>מדריך מקיף ומאוחד לאימון LoRA</h1>
+
+    <div class="section">
+        <h2>1. פרמטרים קריטיים לאימון</h2>
+
+        <div class="parameter">
+            <h3>Linear (Network Dimension)</h3>
+            <p>גודל הדרגה (rank) של מטריצות LoRA - פרמטר קריטי לאיכות האימון</p>
+            
+            <div class="important">
+                <h4>השפעת הערך:</h4>
+                <ul>
+                    <li>ערך גבוה:
+                        <ul>
+                            <li>יכולת למידה טובה יותר</li>
+                            <li>צורך יותר זיכרון</li>
+                            <li>למידה מעמיקה יותר של פרטים</li>
+                        </ul>
+                    </li>
+                    <li>ערך נמוך:
+                        <ul>
+                            <li>חסכוני בזיכרון</li>
+                            <li>יכולת למידה מוגבלת יותר</li>
+                            <li>מתאים למודלים פשוטים</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                <h4>ערכים מומלצים:</h4>
+                <ul>
+                    <li><span class="highlight">4-8</span>: למודלים קטנים או מוגבלי זיכרון</li>
+                    <li><span class="highlight">16-32</span>: לרוב המקרים (מומלץ)</li>
+                    <li><span class="highlight">64+</span>: למודלים גדולים עם הרבה זיכרון</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="focus">
+            <h3>Batch Size - המלצה חשובה!</h3>
+            <p><strong>המלצה חד משמעית: השתמש ב-batch_size = 1</strong></p>
+            <ul>
+                <li>תוצאות יותר עקביות ויציבות</li>
+                <li>למידה יותר מדויקת של המאפיינים</li>
+                <li>פחות רעש בתהליך האימון</li>
+                <li>עובד טוב במיוחד עם Flux LoRA</li>
+                <li>מונע בעיות זיכרון אפשריות</li>
+            </ul>
+        </div>
+
+        <div class="parameter">
+            <h3>Data Types (dtype)</h3>
+            <p>פורמט הנתונים לשמירת המודל</p>
+            
+            <div class="grid">
+                <div class="important">
+                    <h4>float16:</h4>
+                    <ul>
+                        <li>חצי דיוק</li>
+                        <li>חוסך זיכרון</li>
+                        <li>מספיק למרבית המקרים</li>
+                        <li><span class="highlight">מומלץ!</span></li>
+                    </ul>
+                </div>
+                <div class="important">
+                    <h4>float32:</h4>
+                    <ul>
+                        <li>דיוק מלא</li>
+                        <li>צורך יותר זיכרון</li>
+                        <li>נדרש במקרים מיוחדים</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="important">
+            <h3>צעדים ואפוקות</h3>
+            <div class="example">
+                <code>צעדים באפוקה = (מספר תמונות × repeats) ÷ batch_size</code>
+                <code>מספר אפוקות = סך כל הצעדים ÷ צעדים באפוקה</code>
+            </div>
+
+            <table>
+                <tr>
+                    <th>פרמטר</th>
+                    <th>תיאור</th>
+                    <th>המלצות</th>
+                </tr>
+                <tr>
+                    <td>steps</td>
+                    <td>מספר הצעדים הכולל באימון</td>
+                    <td>
+                        - סט קטן (עד 20 תמונות): 1000-1500 צעדים<br>
+                        - סט בינוני (20-50 תמונות): 1500-2500 צעדים<br>
+                        - סט גדול (50+ תמונות): 2500+ צעדים
+                    </td>
+                </tr>
+                <tr>
+                    <td>repeats</td>
+                    <td>כמה פעמים לחזור על כל תמונה ברצף</td>
+                    <td>
+                        - 1 ברוב המקרים (מומלץ)<br>
+                        - 2+ רק במקרים מיוחדים
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. פרמטרים לניהול האימון</h2>
+
+        <div class="parameter">
+            <h3>Learning Rate (lr)</h3>
+            <p>קצב הלמידה של המודל - ערך מומלץ: <span class="highlight">0.0001</span></p>
+            
+            <div class="important">
+                <h4>משמעות הערך:</h4>
+                <ul>
+                    <li>קצב נמוך (0.0001):
+                        <ul>
+                            <li>למידה יציבה יותר</li>
+                            <li>סיכוי נמוך ל-overfitting</li>
+                            <li>מתאים לרוב המקרים</li>
+                        </ul>
+                    </li>
+                    <li>קצב גבוה יותר:
+                        <ul>
+                            <li>למידה מהירה יותר</li>
+                            <li>סיכון גבוה יותר לחוסר יציבות</li>
+                            <li>דורש ניטור קפדני</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="parameter">
+            <h3>max_step_saves_to_keep</h3>
+            <p>מספר הגרסאות המקסימלי שיישמר במהלך האימון</p>
+            
+            <div class="example">
+                <h4>דוגמה עם 2000 צעדים ו-max_step_saves_to_keep: 4</h4>
+                <p>יישמרו רק 4 נקודות השמירה האחרונות:</p>
+                <code>1250, 1500, 1750, 2000</code>
+                <p>* כל השמירות הקודמות יימחקו אוטומטית</p>
+            </div>
+        </div>
+
+        <div class="parameter">
+            <h3>performance_log_every</h3>
+            <p>תדירות רישום מדדי ביצועים במהלך האימון</p>
+            
+            <div class="important">
+                <h4>נתונים שנרשמים:</h4>
+                <ul>
+                    <li>ערכי Loss</li>
+                    <li>זמני עיבוד</li>
+                    <li>שימוש בזיכרון</li>
+                </ul>
+                <p><span class="highlight">ערך מומלץ: 10</span> - מספק מעקב מדויק מספיק בלי להאט את האימון</p>
+            </div>
+        </div>
+
+        <div class="parameter">
+            <h3>caption_dropout_rate</h3>
+            <p>שיעור השמטת כיתובים במהלך האימון</p>
+            
+            <div class="important">
+                <h4>משמעות ערך 0.05:</h4>
+                <ul>
+                    <li>5% מהזמן הכיתוב יושמט</li>
+                    <li>מטרות:
+                        <ul>
+                            <li>הגברת גמישות המודל</li>
+                            <li>מניעת תלות יתר בכיתובים</li>
+                            <li>שיפור יכולת ההכללה</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. טיפים לאיכות אימון טובה</h2>
+
+        <div class="tip">
+            <h3>בחירת תמונות</h3>
+            <ul>
+                <li>מינימום 15-20 תמונות לתוצאות טובות</li>
+                <li>גיוון בזוויות, תאורה ורקעים</li>
+                <li>רזולוציה עקבית בין התמונות</li>
+                <li>איכות תמונה טובה ללא רעשים</li>
+            </ul>
+        </div>
+
+        <div class="tip">
+            <h3>הגדרות אופטימליות</h3>
+            <ul>
+                <li>learning rate: בין 1e-4 ל-8e-4</li>
+                <li>network_dim: 4-32 (תלוי בכמות הזיכרון)</li>
+                <li>resolution: 512-1024 (תלוי באיכות התמונות המקוריות)</li>
+                <li>optimizer: adamw8bit (חסכוני בזיכרון ויעיל)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. דוגמאות מספריות</h2>
+        
+        <div class="important">
+            <h3>חישוב אפוקות עם batch_size = 1 (מומלץ)</h3>
+            <p>עם 30 תמונות ו-batch_size = 1:</p>
+            <pre>
+repeats = 1 (מומלץ):
+- צעדים באפוקה = 30 × 1 ÷ 1 = 30
+- עם 1800 צעדים = 60 אפוקות
+
+repeats = 2:
+- צעדים באפוקה = 30 × 2 ÷ 1 = 60
+- עם 1800 צעדים = 30 אפו
